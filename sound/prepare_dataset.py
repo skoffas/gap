@@ -101,8 +101,11 @@ def preprocess_dataset_mfcc(dataset_path, json_path, n_mfcc, n_fft,
         "files": []
     }
 
+    i = 0
     # loop through all sub-dirs
-    for i, (dirpath, dirnames, filenames) in enumerate(os.walk(dataset_path)):
+    for (dirpath, dirnames, filenames) in os.walk(dataset_path):
+        # We did not use enumerate in the loop because the index will be
+        # increased even in the case that a directory was skipped.
         if "_background_noise_" in dirpath:
             continue
 
@@ -136,9 +139,12 @@ def preprocess_dataset_mfcc(dataset_path, json_path, n_mfcc, n_fft,
 
                     # store data for analysed track
                     data["MFCCs"].append(MFCCs.T.tolist())
-                    data["labels"].append(i-1)
+                    data["labels"].append(i)
                     data["files"].append(file_path)
-                    print("{}: {}".format(file_path, i-1))
+                    print("{}: {}".format(file_path, i))
+
+            # Increase the counter
+            i += 1
 
     # save data in json file
     with open(json_path, "w") as fp:
@@ -162,8 +168,11 @@ def preprocess_dataset_spectro(dataset_path, json_path, samples_to_consider,
         "files": []
     }
 
+    i = 0
     # loop through all sub-dirs
-    for i, (dirpath, dirnames, filenames) in enumerate(os.walk(dataset_path)):
+    for (dirpath, dirnames, filenames) in os.walk(dataset_path):
+        # We did not use enumerate in the loop because the index will be
+        # increased even in the case that a directory was skipped.
         if "_background_noise_" in dirapth:
             continue
 
@@ -198,9 +207,12 @@ def preprocess_dataset_spectro(dataset_path, json_path, samples_to_consider,
 
                     # store data for analysed track
                     data["spectro"].append(spectrogram.T.tolist())
-                    data["labels"].append(i-1)
+                    data["labels"].append(i)
                     data["files"].append(file_path)
-                    print("{}: {}".format(file_path, i-1))
+                    print("{}: {}".format(file_path, i))
+
+            # Increase the counter
+            i += 1
 
     # save data in json file
     with open(json_path, "w") as fp:
