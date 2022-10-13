@@ -100,12 +100,12 @@ def model_trojaning_attacks(arch):
     if arch == "dense":
         model.add(layers.Flatten())
         model.add(layers.Dense(256, activation="relu"))
-        model.add(layers.Dropout(0.5))
+        model.add(layers.Dropout(0.3))
     else:
         model.add(layers.GlobalAveragePooling2D())
 
     model.add(layers.Dense(128, activation="relu"))
-    model.add(layers.Dropout(0.5))
+    model.add(layers.Dropout(0.2))
     model.add(layers.Dense(30, activation="softmax"))
 
     # compile model
